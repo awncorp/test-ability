@@ -48,6 +48,32 @@ L<Types::Standard>
 
 =cut
 
+=head1 SCENARIOS
+
+This package supports the following scenarios:
+
+=cut
+
+=head2 stash
+
+  # given: synopsis
+
+  $t->stash(direction => sub {
+    my ($self) = @_;
+
+    {
+      move => ('forward', 'reverse')[rand(1)],
+      time => time
+    }
+  });
+
+The package provides a stash object for default and user-defined value
+generators. You can easily extend the default generators by adding your own.
+Once defined, custom generators can be specified in the I<gen-spec> (generator
+specification) arrayref provided to the C<test> method (and others).
+
+=cut
+
 =head1 ATTRIBUTES
 
 This package has the following attributes:
@@ -78,7 +104,7 @@ This package implements the following methods:
 
 =head2 array
 
-  array(Int $min, Int $max) : ArrayRef
+  array(Maybe[Int] $min, Maybe[Int] $max) : ArrayRef
 
 The array method returns a random array reference.
 
@@ -96,7 +122,7 @@ The array method returns a random array reference.
 
 =head2 array_object
 
-  array_object(Int $min, Int $max) : Object
+  array_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The array_object method returns a random array object.
 
@@ -132,7 +158,7 @@ The choose method returns a random value from the set of specified generators.
 
 =head2 code
 
-  code(Int $min, Int $max) : CodeRef
+  code(Maybe[Int] $min, Maybe[Int] $max) : CodeRef
 
 The code method returns a random code reference.
 
@@ -150,7 +176,7 @@ The code method returns a random code reference.
 
 =head2 code_object
 
-  code_object(Int $min, Int $max) : Object
+  code_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The code_object method returns a random code object.
 
@@ -168,7 +194,7 @@ The code_object method returns a random code object.
 
 =head2 date
 
-  date(Int $min, Int $max) : Str
+  date(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 The date method returns a random date.
 
@@ -186,7 +212,7 @@ The date method returns a random date.
 
 =head2 datetime
 
-  datetime(Int $min, Int $max) : Str
+  datetime(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 The datetime method returns a random date and time.
 
@@ -204,7 +230,7 @@ The datetime method returns a random date and time.
 
 =head2 hash
 
-  hash(Int $min, Int $max) : HashRef
+  hash(Maybe[Int] $min, Maybe[Int] $max) : HashRef
 
 The hash method returns a random hash reference.
 
@@ -222,7 +248,7 @@ The hash method returns a random hash reference.
 
 =head2 hash_object
 
-  hash_object(Any %args) : Object
+  hash_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The hash_object method returns a random hash object.
 
@@ -259,7 +285,7 @@ undefined value.
 
 =head2 number
 
-  number(Int $min, Int $max) : Int
+  number(Maybe[Int] $min, Maybe[Int] $max) : Int
 
 The number method returns a random number.
 
@@ -277,7 +303,7 @@ The number method returns a random number.
 
 =head2 number_object
 
-  number_object(Int $min, Int $max) : Object
+  number_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The number_object method returns a random number object.
 
@@ -313,7 +339,7 @@ The object method returns a random object.
 
 =head2 regexp
 
-  regexp(Str $exp) : RegexpRef
+  regexp(Maybe[Str] $exp) : RegexpRef
 
 The regexp method returns a random regexp.
 
@@ -331,7 +357,7 @@ The regexp method returns a random regexp.
 
 =head2 regexp_object
 
-  regexp_object(Str $exp) : Object
+  regexp_object(Maybe[Str] $exp) : Object
 
 The regexp_object method returns a random regexp object.
 
@@ -349,7 +375,7 @@ The regexp_object method returns a random regexp object.
 
 =head2 scalar
 
-  scalar(Int $min, Int $max) : Ref
+  scalar(Maybe[Int] $min, Maybe[Int] $max) : Ref
 
 The scalar method returns a random scalar reference.
 
@@ -367,7 +393,7 @@ The scalar method returns a random scalar reference.
 
 =head2 scalar_object
 
-  scalar_object(Int $min, Int $max) : Object
+  scalar_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The scalar_object method returns a random scalar object.
 
@@ -385,7 +411,7 @@ The scalar_object method returns a random scalar object.
 
 =head2 string
 
-  string(Int $min, Int $max) : Str
+  string(Maybe[Int] $min, Maybe[Int] $max) : Str
 
 The string method returns a random string.
 
@@ -403,7 +429,7 @@ The string method returns a random string.
 
 =head2 string_object
 
-  string_object(Int $min, Int $max) : Object
+  string_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The string_object method returns a random string object.
 
@@ -468,7 +494,7 @@ you automatically, executing the subtest logic you've implemented.
 
 =head2 time
 
-  time(Int $min, Int $max) : Str
+  time(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 The time method returns a random time.
 
@@ -540,7 +566,7 @@ The word method returns a random word.
 
 =head2 words
 
-  words(Int $min, Int $max) : Str
+  words(Maybe[Int] $min, Maybe[Int] $max) : Str
 
 The words method returns random words.
 

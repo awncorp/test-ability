@@ -86,13 +86,35 @@ framework for performing property-based testing.
 
 =cut
 
+=scenario stash
+
+The package provides a stash object for default and user-defined value
+generators. You can easily extend the default generators by adding your own.
+Once defined, custom generators can be specified in the I<gen-spec> (generator
+specification) arrayref provided to the C<test> method (and others).
+
+=example stash
+
+  # given: synopsis
+
+  $t->stash(direction => sub {
+    my ($self) = @_;
+
+    {
+      move => ('forward', 'reverse')[rand(1)],
+      time => time
+    }
+  });
+
+=cut
+
 =method array
 
 The array method returns a random array reference.
 
 =signature array
 
-array(Int $min, Int $max) : ArrayRef
+array(Maybe[Int] $min, Maybe[Int] $max) : ArrayRef
 
 =example-1 array
 
@@ -108,7 +130,7 @@ The array_object method returns a random array object.
 
 =signature array_object
 
-array_object(Int $min, Int $max) : Object
+array_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 =example-1 array_object
 
@@ -140,7 +162,7 @@ The code method returns a random code reference.
 
 =signature code
 
-code(Int $min, Int $max) : CodeRef
+code(Maybe[Int] $min, Maybe[Int] $max) : CodeRef
 
 =example-1 code
 
@@ -156,7 +178,7 @@ The code_object method returns a random code object.
 
 =signature code_object
 
-code_object(Int $min, Int $max) : Object
+code_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 =example-1 code_object
 
@@ -172,7 +194,7 @@ The date method returns a random date.
 
 =signature date
 
-date(Int $min, Int $max) : Str
+date(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 =example-1 date
 
@@ -188,7 +210,7 @@ The datetime method returns a random date and time.
 
 =signature datetime
 
-datetime(Int $min, Int $max) : Str
+datetime(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 =example-1 datetime
 
@@ -204,7 +226,7 @@ The hash method returns a random hash reference.
 
 =signature hash
 
-hash(Int $min, Int $max) : HashRef
+hash(Maybe[Int] $min, Maybe[Int] $max) : HashRef
 
 =example-1 hash
 
@@ -220,7 +242,7 @@ The hash_object method returns a random hash object.
 
 =signature hash_object
 
-hash_object(Any %args) : Object
+hash_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 =example-1 hash_object
 
@@ -253,7 +275,7 @@ The number method returns a random number.
 
 =signature number
 
-number(Int $min, Int $max) : Int
+number(Maybe[Int] $min, Maybe[Int] $max) : Int
 
 =example-1 number
 
@@ -269,7 +291,7 @@ The number_object method returns a random number object.
 
 =signature number_object
 
-number_object(Int $min, Int $max) : Object
+number_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 =example-1 number_object
 
@@ -301,7 +323,7 @@ The regexp method returns a random regexp.
 
 =signature regexp
 
-regexp(Str $exp) : RegexpRef
+regexp(Maybe[Str] $exp) : RegexpRef
 
 =example-1 regexp
 
@@ -317,7 +339,7 @@ The regexp_object method returns a random regexp object.
 
 =signature regexp_object
 
-regexp_object(Str $exp) : Object
+regexp_object(Maybe[Str] $exp) : Object
 
 =example-1 regexp_object
 
@@ -333,7 +355,7 @@ The scalar method returns a random scalar reference.
 
 =signature scalar
 
-scalar(Int $min, Int $max) : Ref
+scalar(Maybe[Int] $min, Maybe[Int] $max) : Ref
 
 =example-1 scalar
 
@@ -349,7 +371,7 @@ The scalar_object method returns a random scalar object.
 
 =signature scalar_object
 
-scalar_object(Int $min, Int $max) : Object
+scalar_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 =example-1 scalar_object
 
@@ -365,7 +387,7 @@ The string method returns a random string.
 
 =signature string
 
-string(Int $min, Int $max) : Str
+string(Maybe[Int] $min, Maybe[Int] $max) : Str
 
 =example-1 string
 
@@ -381,7 +403,7 @@ The string_object method returns a random string object.
 
 =signature string_object
 
-string_object(Int $min, Int $max) : Object
+string_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 =example-1 string_object
 
@@ -442,7 +464,7 @@ The time method returns a random time.
 
 =signature time
 
-time(Int $min, Int $max) : Str
+time(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 =example-1 time
 
@@ -506,7 +528,7 @@ The words method returns random words.
 
 =signature words
 
-words(Int $min, Int $max) : Str
+words(Maybe[Int] $min, Maybe[Int] $max) : Str
 
 =example-1 words
 
@@ -541,7 +563,20 @@ $subs->example(-1, 'array_object', 'method', fun($tryable) {
 });
 
 $subs->example(-1, 'choose', 'method', fun($tryable) {
-  ok my $result = $tryable->result;
+  my $result;
+
+  my $words = 0;
+  my $dates = 0;
+
+  for (1..100) {
+    ok $result = $tryable->result;
+
+    $dates++ if $result =~ /\d/;
+    $words++ if $result !~ /\d/;
+  }
+
+  ok $words;
+  ok $dates;
 
   $result
 });
