@@ -81,7 +81,7 @@ invocant: ro, opt, Object
 
 =description
 
-This package provides methods for generating values and test-cases, prodiving a
+This package provides methods for generating values and test-cases, providing a
 framework for performing property-based testing.
 
 =cut
@@ -569,14 +569,14 @@ $subs->example(-1, 'choose', 'method', fun($tryable) {
   my $dates = 0;
 
   for (1..100) {
-    ok $result = $tryable->result;
+    ok $result = $tryable->result, 'got choice';
 
     $dates++ if $result =~ /\d/;
     $words++ if $result !~ /\d/;
   }
 
-  ok $words;
-  ok $dates;
+  ok $words, 'choice produces words';
+  ok $dates, 'choice produces dates';
 
   $result
 });
@@ -624,7 +624,7 @@ $subs->example(-1, 'maybe', 'method', fun($tryable) {
 });
 
 $subs->example(-1, 'number', 'method', fun($tryable) {
-  ok my $result = $tryable->result;
+  my $result = $tryable->result;
 
   $result
 });
