@@ -72,7 +72,7 @@ method build_self($data) {
 
 # METHODS
 
-method array($min = 5, $max = 10) {
+method array(Maybe[Int] $min = 5, Maybe[Int] $max = 10) {
   my $data = [
     Data::Random::rand_chars(
       set => 'all', min => $min, max => $max
@@ -82,21 +82,21 @@ method array($min = 5, $max = 10) {
   return $data;
 }
 
-method array_object($min = 5, $max = 10) {
+method array_object(Maybe[Int] $min = 5, Maybe[Int] $max = 10) {
   my $data = $self->array;
   my $word = $self->word;
 
   return $self->instance($data, ucfirst($word));
 }
 
-method choose($spec = []) {
-  my $item = $spec->[rand($#$spec)];
+method choose(ArrayRef[ArrayRef] $spec = [[]]) {
+  my $item = $spec->[rand($#$spec + 1)];
   my $data = $self->dispatch($item);
 
   return $data;
 }
 
-method code(@args) {
+method code(Maybe[Int] @args) {
   my $data = sub {
     ($self->words(@args), $self->number(@args))[rand(2)]
   };
@@ -104,14 +104,14 @@ method code(@args) {
   return $data;
 }
 
-method code_object($min, $max) {
+method code_object(Maybe[Int] $min, Maybe[Int] $max) {
   my $data = $self->code;
   my $word = $self->word;
 
   return $self->instance($data, ucfirst($word));
 }
 
-method date($min, $max) {
+method date(Maybe[Str] $min, Maybe[Str] $max) {
   my $data = Data::Random::rand_date(
     min => $min,
     max => $max
@@ -120,7 +120,7 @@ method date($min, $max) {
   return $data;
 }
 
-method datetime($min, $max) {
+method datetime(Maybe[Str] $min, Maybe[Str] $max) {
   my $data = Data::Random::rand_datetime(
     min => $min,
     max => $max
@@ -129,8 +129,8 @@ method datetime($min, $max) {
   return $data;
 }
 
-method dispatch($spec = []) {
-  my ($method, $arguments) = @$spec;
+method dispatch(ArrayRef $item = []) {
+  my ($method, $arguments) = @$item;
 
   if (!$method) {
     return undef;
@@ -145,7 +145,7 @@ method dispatch($spec = []) {
   }
 }
 
-method hash($min, $max) {
+method hash(Maybe[Int] $min, Maybe[Int] $max) {
   my $data = $self->array($min, $max);
 
   $data = {
@@ -155,25 +155,25 @@ method hash($min, $max) {
   return $data;
 }
 
-method hash_object($min, $max) {
+method hash_object(Maybe[Int] $min, Maybe[Int] $max) {
   my $data = $self->hash;
   my $word = $self->word;
 
   return $self->instance($data, ucfirst($word));
 }
 
-method instance($value, $class) {
+method instance(Any $value, Str $class) {
 
   return bless $value, $class;
 }
 
-method maybe($spec = []) {
+method maybe(ArrayRef[ArrayRef] $spec = [[]]) {
   my $data = ($self->choose($spec), undef)[rand(2)];
 
   return $data;
 }
 
-method number($min = 0, $max = 1_000) {
+method number(Maybe[Int] $min = 0, Maybe[Int] $max = 1_000) {
   $min = 0 if !$min || $min > $max;
 
   my $data = $min + int rand($max - $min);
@@ -181,7 +181,7 @@ method number($min = 0, $max = 1_000) {
   return $data;
 }
 
-method number_object($min = 0, $max = 1_000) {
+method number_object(Maybe[Int] $min = 0, Maybe[Int] $max = 1_000) {
   my $data = $self->number($min, $max);
   my $word = $self->word;
 
@@ -205,40 +205,40 @@ method object() {
   return $self->$method;
 }
 
-method regexp($exp = '.*') {
+method regexp(Str $exp = '.*') {
   my $word = $self->word;
   my $data = ref($exp) ? $exp : qr/$exp/;
 
   return $data;
 }
 
-method regexp_object($exp = '.*') {
+method regexp_object(Str $exp = '.*') {
   my $data = $self->regexp($exp);
   my $word = $self->word;
 
   return $self->instance(\$data, ucfirst($word));
 }
 
-method scalar(@args) {
+method scalar(Maybe[Int] @args) {
   my $data = ($self->words(@args), $self->number(@args))[rand(2)];
 
   return \$data;
 }
 
-method scalar_object($min, $max) {
+method scalar_object(Maybe[Int] $min, Maybe[Int] $max) {
   my $data = $self->scalar;
   my $word = $self->word;
 
   return $self->instance($data, ucfirst($word));
 }
 
-method string($min, $max) {
+method string(Maybe[Int] $min, Maybe[Int] $max) {
   my $data = $self->words($min, $max);
 
   return $data;
 }
 
-method string_object($min, $max) {
+method string_object(Maybe[Int] $min, Maybe[Int] $max) {
   my $data = $self->string;
   my $word = $self->word;
 
@@ -268,7 +268,7 @@ method test(Str $name, Int $cycles, ArrayRef[ArrayRef] $spec, CodeRef $callback)
   return;
 }
 
-method time($min, $max) {
+method time(Maybe[Str] $min, Maybe[Str] $max) {
   my $data = Data::Random::rand_time(
     min => $min,
     max => $max
@@ -295,7 +295,7 @@ method word() {
   return $data->[0];
 }
 
-method words($min = 2, $max = 10) {
+method words(Maybe[Int] $min = 2, Maybe[Int] $max = 10) {
   my $data = Data::Random::rand_words(
     min => $min, max => $max
   );
