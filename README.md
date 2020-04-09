@@ -4,7 +4,7 @@ Test::Ability
 
 # ABSTRACT
 
-Property-Based Testing
+Property-Based Testing for Perl 5
 
 # SYNOPSIS
 
@@ -16,7 +16,8 @@ Property-Based Testing
 
 # DESCRIPTION
 
-This package provides methods for generating random values and test-cases.
+This package provides methods for generating values and test-cases, prodiving a
+framework for performing property-based testing.
 
 # INTEGRATES
 
@@ -289,7 +290,7 @@ The test method generates subtests using ["subtest" in Test::More](https://metac
 generating and passing random values to each iteration as well as a
 [Data::Object::Try](https://metacpan.org/pod/Data%3A%3AObject%3A%3ATry) object for easy execution of callbacks and interception of
 exceptions. This callback expected should have the signature `($tryable,
-@arguments)` where `@arguments` contains the generated values in the order
+@arguments)` where `@arguments` gets assigned the generated values in the order
 specified. The callback must return the `$tryable` object, which is called for
 you automatically, executing the subtest logic you've implemented.
 
