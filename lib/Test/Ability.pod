@@ -9,7 +9,7 @@ Test::Ability
 
 =head1 ABSTRACT
 
-Property-Based Testing
+Property-Based Testing for Perl 5
 
 =cut
 
@@ -25,7 +25,8 @@ Property-Based Testing
 
 =head1 DESCRIPTION
 
-This package provides methods for generating random values and test-cases.
+This package provides methods for generating values and test-cases, prodiving a
+framework for performing property-based testing.
 
 =cut
 
@@ -426,7 +427,7 @@ The test method generates subtests using L<Test::More/subtest>, optionally
 generating and passing random values to each iteration as well as a
 L<Data::Object::Try> object for easy execution of callbacks and interception of
 exceptions. This callback expected should have the signature C<($tryable,
-@arguments)> where C<@arguments> contains the generated values in the order
+@arguments)> where C<@arguments> gets assigned the generated values in the order
 specified. The callback must return the C<$tryable> object, which is called for
 you automatically, executing the subtest logic you've implemented.
 
