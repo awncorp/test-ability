@@ -1,0 +1,71 @@
+#!/usr/bin/env perl
+
+package generate;
+
+use strict;
+use warnings;
+
+use feature 'say';
+
+use Data::Dump;
+use Path::Tiny;
+use Proc::InvokeEditor;
+use Template;
+use YAML::Tiny;
+
+my $base = $ENV{BASE} //= "$ENV{HOME}/templates";
+my $vars = $ENV{VARS} //= "vars.yml";
+my $edit = $ENV{EDIT} //= 1;
+
+my $filename = find_path($vars);
+my $varsfile = Path::Tiny->new($filename);
+my $launcher = Proc::InvokeEditor->new;
+
+$launcher->{filename} = "$varsfile";
+
+my $template = Template->new(INCLUDE_PATH => "@{[Path::Tiny->cwd]}");
+
+my $fileconts = $varsfile->slurp;
+   $fileconts = $launcher->edit($fileconts) if $edit;
+
+my $variables = YAML::Tiny->read_string($fileconts);
+
+# process each input file
+foreach my $input (@ARGV) {
+  my $output = '';
+
+  if ($input eq '-') {
+    $input = \*STDIN;
+  } else {
+    $input = find_path($input);
+  }
+
+  $template->process($input, $variables->[0], \$output) || die $template->error;
+
+  if ($ENV{out}) {
+    my $path = path($ENV{out});
+    $path->parent->mkpath;
+    $path->spew($output);
+  } else {
+    say $output;
+  }
+}
+
+sub find_path {
+  my ($file) = @_;
+
+  my $here = '.';
+  my $home = $base;
+
+  if (-f path($here)->child($file)) {
+    return join '', path($here)->child($file);
+  }
+
+  if (-f path($home)->child($file)) {
+    return join '', path($home)->child($file);
+  }
+
+  return $file;
+}
+
+1;

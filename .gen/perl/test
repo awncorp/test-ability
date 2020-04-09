@@ -1,0 +1,226 @@
+use 5.014;
+
+use strict;
+use warnings;
+use routines;
+
+use Test::Auto;
+use Test::More;
+
+=name
+
+[% name %]
+
+=cut
+
+=abstract
+
+[% type %]
+
+=cut
+
+[%- IF functions || methods || routines %]
+=includes
+
+[%- IF functions %]
+[%- FOR item IN functions %]
+function: [% item.name %]
+[%- END -%]
+[% END %]
+[%- IF methods %]
+[%- FOR item IN methods %]
+method: [% item.name %]
+[%- END -%]
+[% END %]
+[%- IF routines %]
+[%- FOR item IN routines %]
+routine: [% item.name %]
+[%- END -%]
+[% END %]
+
+=cut
+[% END -%]
+
+=synopsis
+
+  use [% name %];
+
+  # do something ...
+
+=cut
+
+[%- IF libraries %]
+=libraries
+
+[%- FOR item IN libraries %]
+[% item %]
+[%- END %]
+
+=cut
+[% END -%]
+
+[%- IF inherits %]
+=inherits
+
+[%- FOR item IN inherits %]
+[% item %]
+[%- END %]
+
+=cut
+[% END -%]
+
+[%- IF integrates %]
+=integrates
+
+[%- FOR item IN integrates %]
+[% item %]
+[%- END %]
+
+=cut
+[% END -%]
+
+[%- IF attributes %]
+=attributes
+
+[%- FOR item IN attributes %]
+[% item.name %]: [% item.is %], [% item.form %], [% item.type %]
+[%- END %]
+
+=cut
+[% END -%]
+
+=description
+
+This package provides [% desc %].
+
+=cut
+
+[%- IF scenarios %]
+[%- FOR item IN scenarios %]
+=scenario [% item.name %]
+
+This package supports [% item.desc %].
+
+=example [% item.name %]
+
+  use [% name %];
+
+  # do something ...
+
+=cut
+[% END -%]
+[% END -%]
+
+[%- IF functions %]
+[%- FOR item IN functions %]
+=method [% item.name %]
+
+The [% item.name %] method [% item.desc %].
+
+=signature [% item.name %]
+
+[% item.name %][% item.args %]
+
+=example-1 [% item.name %]
+
+  # given: synopsis
+
+  # do something ...
+
+=cut
+[% END -%]
+[% END -%]
+
+[%- IF methods %]
+[%- FOR item IN methods %]
+=method [% item.name %]
+
+The [% item.name %] method [% item.desc %].
+
+=signature [% item.name %]
+
+[% item.name %][% item.args %]
+
+=example-1 [% item.name %]
+
+  # given: synopsis
+
+  # do something ...
+
+=cut
+[% END -%]
+[% END -%]
+
+[%- IF routines %]
+[%- FOR item IN routines %]
+=method [% item.name %]
+
+The [% item.name %] method [% item.desc %].
+
+=signature [% item.name %]
+
+[% item.name %][% item.args %]
+
+=example-1 [% item.name %]
+
+  # given: synopsis
+
+  # do something ...
+
+=cut
+[% END -%]
+[% END -%]
+
+package main;
+
+my $test = testauto(__FILE__);
+
+my $subs = $test->standard;
+
+$subs->synopsis(fun($tryable) {
+  ok my $result = $tryable->result;
+
+  $result
+});
+
+[%- IF scenarios %]
+[%- FOR item IN scenarios %]
+$subs->scenario('[% item.name %]', fun($tryable) {
+  ok my $result = $tryable->result;
+
+  $result
+});
+[% END -%]
+[% END -%]
+
+[%- IF functions %]
+[%- FOR item IN functions %]
+$subs->example(-1, '[% item.name %]', 'function', fun($tryable) {
+  ok my $result = $tryable->result;
+
+  $result
+});
+[% END -%]
+[% END -%]
+
+[%- IF methods %]
+[%- FOR item IN methods %]
+$subs->example(-1, '[% item.name %]', 'method', fun($tryable) {
+  ok my $result = $tryable->result;
+
+  $result
+});
+[% END -%]
+[% END -%]
+
+[%- IF routines %]
+[%- FOR item IN routines %]
+$subs->example(-1, '[% item.name %]', 'routine', fun($tryable) {
+  ok my $result = $tryable->result;
+
+  $result
+});
+[% END -%]
+[% END -%]
+
+ok 1 and done_testing;
