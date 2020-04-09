@@ -17,7 +17,7 @@ SYNOPSIS
 DESCRIPTION
 
     This package provides methods for generating values and test-cases,
-    prodiving a framework for performing property-based testing.
+    providing a framework for performing property-based testing.
 
 INTEGRATES
 

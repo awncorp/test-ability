@@ -16,7 +16,7 @@ Property-Based Testing for Perl 5
 
 # DESCRIPTION
 
-This package provides methods for generating values and test-cases, prodiving a
+This package provides methods for generating values and test-cases, providing a
 framework for performing property-based testing.
 
 # INTEGRATES

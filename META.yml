@@ -36,8 +36,9 @@ requires:
   warnings: '0'
 resources:
   bugtracker: https://github.com/iamalnewkirk/test-ability/issues
+  homepage: https://metacpan.org/pod/Test::Ability
   repository: git://github.com/iamalnewkirk/test-ability.git
-version: '0.02'
+version: '0.03'
 x_authority: cpan:AWNCORP
 x_generated_by_perl: v5.30.1
 x_serialization_backend: 'YAML::Tiny version 1.73'
