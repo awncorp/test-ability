@@ -33,6 +33,28 @@ This package uses type constraints from:
 
 [Types::Standard](https://metacpan.org/pod/Types%3A%3AStandard)
 
+# SCENARIOS
+
+This package supports the following scenarios:
+
+## stash
+
+    # given: synopsis
+
+    $t->stash(direction => sub {
+      my ($self) = @_;
+
+      {
+        move => ('forward', 'reverse')[rand(1)],
+        time => time
+      }
+    });
+
+The package provides a stash object for default and user-defined value
+generators. You can easily extend the default generators by adding your own.
+Once defined, custom generators can be specified in the _gen-spec_ (generator
+specification) arrayref provided to the `test` method (and others).
+
 # ATTRIBUTES
 
 This package has the following attributes:
@@ -55,7 +77,7 @@ This package implements the following methods:
 
 ## array
 
-    array(Int $min, Int $max) : ArrayRef
+    array(Maybe[Int] $min, Maybe[Int] $max) : ArrayRef
 
 The array method returns a random array reference.
 
@@ -67,7 +89,7 @@ The array method returns a random array reference.
 
 ## array\_object
 
-    array_object(Int $min, Int $max) : Object
+    array_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The array\_object method returns a random array object.
 
@@ -91,7 +113,7 @@ The choose method returns a random value from the set of specified generators.
 
 ## code
 
-    code(Int $min, Int $max) : CodeRef
+    code(Maybe[Int] $min, Maybe[Int] $max) : CodeRef
 
 The code method returns a random code reference.
 
@@ -103,7 +125,7 @@ The code method returns a random code reference.
 
 ## code\_object
 
-    code_object(Int $min, Int $max) : Object
+    code_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The code\_object method returns a random code object.
 
@@ -115,7 +137,7 @@ The code\_object method returns a random code object.
 
 ## date
 
-    date(Int $min, Int $max) : Str
+    date(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 The date method returns a random date.
 
@@ -127,7 +149,7 @@ The date method returns a random date.
 
 ## datetime
 
-    datetime(Int $min, Int $max) : Str
+    datetime(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 The datetime method returns a random date and time.
 
@@ -139,7 +161,7 @@ The datetime method returns a random date and time.
 
 ## hash
 
-    hash(Int $min, Int $max) : HashRef
+    hash(Maybe[Int] $min, Maybe[Int] $max) : HashRef
 
 The hash method returns a random hash reference.
 
@@ -151,7 +173,7 @@ The hash method returns a random hash reference.
 
 ## hash\_object
 
-    hash_object(Any %args) : Object
+    hash_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The hash\_object method returns a random hash object.
 
@@ -176,7 +198,7 @@ undefined value.
 
 ## number
 
-    number(Int $min, Int $max) : Int
+    number(Maybe[Int] $min, Maybe[Int] $max) : Int
 
 The number method returns a random number.
 
@@ -188,7 +210,7 @@ The number method returns a random number.
 
 ## number\_object
 
-    number_object(Int $min, Int $max) : Object
+    number_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The number\_object method returns a random number object.
 
@@ -212,7 +234,7 @@ The object method returns a random object.
 
 ## regexp
 
-    regexp(Str $exp) : RegexpRef
+    regexp(Maybe[Str] $exp) : RegexpRef
 
 The regexp method returns a random regexp.
 
@@ -224,7 +246,7 @@ The regexp method returns a random regexp.
 
 ## regexp\_object
 
-    regexp_object(Str $exp) : Object
+    regexp_object(Maybe[Str] $exp) : Object
 
 The regexp\_object method returns a random regexp object.
 
@@ -236,7 +258,7 @@ The regexp\_object method returns a random regexp object.
 
 ## scalar
 
-    scalar(Int $min, Int $max) : Ref
+    scalar(Maybe[Int] $min, Maybe[Int] $max) : Ref
 
 The scalar method returns a random scalar reference.
 
@@ -248,7 +270,7 @@ The scalar method returns a random scalar reference.
 
 ## scalar\_object
 
-    scalar_object(Int $min, Int $max) : Object
+    scalar_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The scalar\_object method returns a random scalar object.
 
@@ -260,7 +282,7 @@ The scalar\_object method returns a random scalar object.
 
 ## string
 
-    string(Int $min, Int $max) : Str
+    string(Maybe[Int] $min, Maybe[Int] $max) : Str
 
 The string method returns a random string.
 
@@ -272,7 +294,7 @@ The string method returns a random string.
 
 ## string\_object
 
-    string_object(Int $min, Int $max) : Object
+    string_object(Maybe[Int] $min, Maybe[Int] $max) : Object
 
 The string\_object method returns a random string object.
 
@@ -325,7 +347,7 @@ you automatically, executing the subtest logic you've implemented.
 
 ## time
 
-    time(Int $min, Int $max) : Str
+    time(Maybe[Str] $min, Maybe[Str] $max) : Str
 
 The time method returns a random time.
 
@@ -373,7 +395,7 @@ The word method returns a random word.
 
 ## words
 
-    words(Int $min, Int $max) : Str
+    words(Maybe[Int] $min, Maybe[Int] $max) : Str
 
 The words method returns random words.
 
