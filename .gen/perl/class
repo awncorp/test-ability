@@ -1,0 +1,74 @@
+package [% name %];
+
+use 5.014;
+
+use strict;
+use warnings;
+
+use registry;
+use routines;
+
+use Data::Object::Class;
+use Data::Object::ClassHas;
+
+[%- IF inherits %]
+[%- FOR item IN inherits %]
+extends '[% item %]';
+[%- END %]
+[% END -%]
+
+[%- IF integrates %]
+[%- FOR item IN integrates %]
+with '[% item %]';
+[%- END %]
+[% END -%]
+
+# VERSION
+
+[%- IF attributes %]
+# ATTRIBUTES
+[% FOR item IN attributes %]
+has '[% item.name %]' => (
+  is => '[% item.is %]',
+  isa => '[% item.type %]',
+  [% item.form %] => 1,
+);
+[% END -%]
+[% END -%]
+
+[%- IF functions %]
+# FUNCTIONS
+[% FOR item IN functions %]
+fun [% item.name %]() {
+  # do something ...
+
+  return;
+}
+[% END -%]
+[% END -%]
+
+[%- IF methods %]
+# METHODS
+[% FOR item IN methods %]
+method [% item.name %]() {
+  # do something ...
+
+  return $self;
+}
+[% END -%]
+[% END -%]
+
+[%- IF routines %]
+# ROUTINES
+[% FOR item IN routines %]
+sub [% item.name %] {
+  my ($self) = @_;
+
+  # do something ...
+
+  return $self;
+}
+[% END -%]
+[% END -%]
+
+1;

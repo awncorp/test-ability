@@ -1,0 +1,128 @@
+---
+name: Test::Ability
+type: Property-Based Testing
+desc: methods for generating values and test-cases
+
+libraries:
+- Types::Standard
+
+inherits:
+- Data::Object::Try
+
+integrates:
+- Data::Object::Role::Buildable
+- Data::Object::Role::Stashable
+
+attributes:
+
+- is: ro
+  name: arguments
+  type: ArrayRef
+  form: opt
+
+- is: ro
+  name: invocant
+  type: Object
+  form: opt
+
+methods:
+
+- name: array
+  args: "(Any %args) : Any"
+  desc: returns a random array reference
+
+- name: array_object
+  args: "(Any %args) : Any"
+  desc: returns a random array object
+
+- name: choose
+  args: "(ArrayRef[ArrayRef] $args) : Any"
+  desc: returns a random value from the set of specified generators
+
+- name: code
+  args: "(Any %args) : Any"
+  desc: returns a random code reference
+
+- name: code_object
+  args: "(Any %args) : Any"
+  desc: returns a random code object
+
+- name: date
+  args: "(Any %args) : Any"
+  desc: returns a random date
+
+- name: datetime
+  args: "(Any %args) : Any"
+  desc: returns a random date and time
+
+- name: hash
+  args: "(Any %args) : Any"
+  desc: returns a random hash reference
+
+- name: hash_object
+  args: "(Any %args) : Any"
+  desc: returns a random hash object
+
+- name: maybe
+  args: "(ArrayRef[ArrayRef] $args) : Any"
+  desc: returns a random choice using the choose method, or the undefined value
+
+- name: number
+  args: "(Any %args) : Any"
+  desc: returns a random number
+
+- name: number_object
+  args: "(Any %args) : Any"
+  desc: returns a random number object
+
+- name: object
+  args: "(Any %args) : Any"
+  desc: returns a random object
+
+- name: regexp
+  args: "(Any %args) : Any"
+  desc: returns a random regexp
+
+- name: regexp_object
+  args: "(Any %args) : Any"
+  desc: returns a random regexp object
+
+- name: scalar
+  args: "(Any %args) : Any"
+  desc: returns a random scalar reference
+
+- name: scalar_object
+  args: "(Any %args) : Any"
+  desc: returns a random scalar object
+
+- name: string
+  args: "(Any %args) : Any"
+  desc: returns a random string
+
+- name: string_object
+  args: "(Any %args) : Any"
+  desc: returns a random string object
+
+- name: test
+  args: "(Str $name, Int $cycles, ArrayRef[ArrayRef] $spec, CodeRef $callback) : Any"
+  desc: generates subtests using L<Test::More/subtest>, also (optionally) generating values which it ...
+
+- name: time
+  args: "(Any %args) : Any"
+  desc: returns a random time
+
+- name: undef
+  args: "(Any %args) : Any"
+  desc: returns the undefined value
+
+- name: undef_object
+  args: "(Any %args) : Any"
+  desc: returns the undefined value as an object
+
+- name: word
+  args: "(Any %args) : Any"
+  desc: returns a random word
+
+- name: words
+  args: "(Any %args) : Any"
+  desc: returns random words

@@ -1,0 +1,60 @@
+#!/usr/bin/env perl
+
+package generate_project;
+
+use strict;
+use warnings;
+
+use feature 'say';
+
+use Data::Dump;
+use Path::Tiny;
+use YAML::Tiny;
+
+my $base = $ENV{BASE} //= "$ENV{HOME}/templates";
+my $prog = $ENV{MAKE} //= find_path('generate');
+
+my $filename = find_path($ARGV[0]);
+my $yamlfile = Path::Tiny->new($filename);
+my $fileconts = $yamlfile->slurp;
+my $variables = YAML::Tiny->read_string($fileconts);
+
+if (my $make = $variables->[0]{make}) {
+  for my $item (@$make) {
+    my $base = $item->{base};
+    my $edit = $item->{edit};
+    my $vars = $item->{vars};
+    my $file = $item->{file};
+    my $uses = $item->{uses};
+
+    next if !$file || !$uses;
+
+    local $ENV{out} = $file if defined $file;
+    local $ENV{BASE} = $base if defined $base;
+    local $ENV{VARS} = $vars if defined $vars;
+    local $ENV{EDIT} = $edit if defined $edit;
+
+    say "[$prog] file: $file; vars: $vars";
+
+    system "perl", $prog, @$uses;
+  }
+}
+
+sub find_path {
+  my ($file) = @_;
+
+  my $here = '.';
+  my $home = $base;
+
+  if (-f path($here)->child($file)) {
+    return join '', path($here)->child($file);
+  }
+
+  if (-f path($home)->child($file)) {
+    return join '', path($home)->child($file);
+  }
+
+  return $file;
+}
+
+1;
