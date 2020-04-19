@@ -1,6 +1,11 @@
 Changelog for Test-Ability
 
-0.03 2020-04-09T17:29:51
+0.04 2020-04-19T01:51:11
+ - Added release updates
+ - Fix weird specref modification
+
+0.03 2020-04-09T17:29:52
+ - Built release version 0.03
  - Added release updates
  - Fix number generator test failing on zero
 
