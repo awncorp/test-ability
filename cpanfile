@@ -1,3 +1,4 @@
+requires "Clone" => "0.43";
 requires "Data::Object::Class" => "2.02";
 requires "Data::Object::ClassHas" => "2.01";
 requires "Data::Object::Role::Buildable" => "0.03";
@@ -10,6 +11,7 @@ requires "strict" => "0";
 requires "warnings" => "0";
 
 on 'test' => sub {
+  requires "Clone" => "0.43";
   requires "Data::Object::Class" => "2.02";
   requires "Data::Object::ClassHas" => "2.01";
   requires "Data::Object::Role::Buildable" => "0.03";

@@ -1,6 +1,11 @@
 Changelog for Test-Ability
 
-0.04 2020-04-19T01:51:11
+0.05 2020-04-19T13:11:48
+ - Added release updates
+ - Add missing dependecny
+
+0.04 2020-04-19T01:51:13
+ - Built release version 0.04
  - Added release updates
  - Fix weird specref modification
 
